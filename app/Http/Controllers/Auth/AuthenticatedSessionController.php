@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,12 +20,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $user_role = auth()->user()->user_role;
-
-        if ($user_role === UserRole::CUSTOMER->value) {
-            return redirect()->intended();
-        }
-
         return redirect()->intended('/admin/dashboard');
     }
 
@@ -38,6 +31,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

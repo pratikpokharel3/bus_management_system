@@ -26,6 +26,6 @@ class IsAdminMiddlware
             return $next($request);
         }
 
-        return redirect('/customer/dashboard')->with('success', 'You are not authorized to access that page.');
+        return redirect('/admin/dashboard')->with('success', 'You are not authorized to access that page.');
     }
 }

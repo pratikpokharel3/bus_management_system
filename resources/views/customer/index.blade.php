@@ -15,44 +15,68 @@
             </form>
         </div>
 
-        <div class="mt-6 overflow-x-auto shadow-md">
+        <div class="relative mt-6 overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-500">
-                <thead class="text-gray-70 bg-gray-50 text-xs uppercase">
+                <thead class="bg-gray-50 text-xs uppercase text-gray-700">
                     <tr>
-                        <th class="px-6 py-3">Customer Name</th>
-                        <th class="px-6 py-3">Email</th>
-                        <th class="px-6 py-3">Phone Number</th>
-                        <th class="px-6 py-3">Location</th>
-                        <th class="px-6 py-3">Action</th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Customer name
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Email
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Phone Number
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Location
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($customers as $customer)
                         <tr class="border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">
+                            <th
+                                class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                                scope="row"
+                            >
                                 {{ $customer->name }}
-                            </td>
+                            </th>
 
                             <td class="px-6 py-4">
                                 {{ $customer->email }}
                             </td>
 
                             <td class="px-6 py-4">
-                                {{ $customer->phone_number ?? '-' }}
+                                {{ $customer->phone_number }}
                             </td>
 
                             <td class="px-6 py-4">
-                                @isset($customer->location)
-                                    {{ $customer->location->district }}
-                                @else
-                                    -
-                                @endisset
+                                {{ $customer->location->district }}
                             </td>
 
                             <td class="flex gap-x-2 px-6 py-4">
                                 <a
                                     class="font-medium text-blue-600 hover:underline"
-                                    href={{ route('admin.customer.show', $customer) }}
+                                    href="{{ route('admin.customer.show', $customer) }}"
                                 >
                                     View
                                 </a>
@@ -61,7 +85,7 @@
                     @empty
                         <tr>
                             <td
-                                class="pt-4 text-center"
+                                class="py-4 text-center"
                                 colspan="5"
                             >
                                 No customers found.
@@ -71,9 +95,11 @@
                 </tbody>
             </table>
 
-            <div class="p-6">
-                {{ $customers->links() }}
-            </div>
+            @if ($customers->total() > $customers->count())
+                <div class="mt-5">
+                    {{ $customers->links() }}
+                </div>
+            @endif
         </div>
     </x-card>
 </x-app-layout>

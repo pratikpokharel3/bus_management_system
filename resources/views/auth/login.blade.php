@@ -1,6 +1,11 @@
 <x-guest-layout>
-    <div class="flex w-1/4 grow items-center self-center">
-        <x-card class="mx-0 my-0">
+    <div class="flex w-4/5 grow items-center justify-between self-center">
+        <img
+            class="w-1/2"
+            src="{{ asset('img3.jpg') }}"
+        >
+
+        <x-card class="mx-0 my-0 !w-1/3">
             <form
                 method="POST"
                 action="{{ route('login') }}"

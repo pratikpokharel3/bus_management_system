@@ -37,7 +37,7 @@ class AdminBookingController extends Controller
 
     public function invoice_view(Booking $booking)
     {
-        return Pdf::loadView('customer.booking.invoice', [
+        return Pdf::loadView('booking.invoice', [
             'booking' => $booking->load(
                 'bus_departure.bus',
                 'bus_departure.bus_route',
@@ -51,7 +51,7 @@ class AdminBookingController extends Controller
     public function invoice_download(Booking $booking)
     {
         return PDF::loadView(
-            'customer.booking.invoice',
+            'booking.invoice',
             [
                 'booking' => $booking->load(
                     'bus_departure.bus',

@@ -1,12 +1,10 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
-        <x-page-header class="mt-3">Customer Information</x-page-header>
+        <x-page-header>Customer Information</x-page-header>
 
         <div class="mt-2 grid grid-cols-3 gap-y-5">
             <div class="flex flex-col">
-                <span class="font-semibold">Customer Name</span>
+                <span class="font-semibold">Name</span>
                 {{ $customer->name }}
             </div>
 

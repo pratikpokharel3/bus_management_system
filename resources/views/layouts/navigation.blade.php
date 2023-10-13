@@ -3,10 +3,10 @@
     x-data="{ open: false }"
 >
     <div class="mx-auto max-w-7xl px-8">
-        <div class="flex h-16 justify-between">
+        <div class="flex h-16 items-center justify-between">
             <a
                 class="flex items-center gap-x-2"
-                href="/"
+                href="{{ route('admin.dashboard') }}"
             >
                 <img
                     class="h-6 w-6"
@@ -16,7 +16,7 @@
                 <span class="text-xl font-semibold">Araniko Bus Sewa</span>
             </a>
 
-            <div class="ml-6 flex items-center">
+            @auth
                 <x-dropdown
                     align="right"
                     width="48"
@@ -44,14 +44,6 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        @cannot('customer', \App\Models\User::class)
-                            <x-dropdown-link :href="route('admin.dashboard')">Dashboard</x-dropdown-link>
-                        @else
-                            <x-dropdown-link :href="route('customer.dashboard')">Dashboard</x-dropdown-link>
-                        @endcannot
-
-                        <x-dropdown-link href="">Profile</x-dropdown-link>
-
                         <form
                             method="POST"
                             action="{{ route('logout') }}"
@@ -66,7 +58,7 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
-            </div>
+            @endauth
         </div>
     </div>
 </nav>

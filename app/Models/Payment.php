@@ -38,7 +38,6 @@ class Payment extends Model
         );
     }
 
-    //For admin
     public function scopeFilter($query, $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {

@@ -5,9 +5,9 @@
     $pending = 'border-t-4 text-orange-800 border-orange-300 bg-orange-50';
     $accepted = ' border-t-4 text-green-800 border-green-300 bg-green-50';
     $rejected = 'border-t-4 text-red-800 border-red-300 bg-red-50';
-    
+
     $activeClass = '';
-    
+
     if ($variant === 'info') {
         $activeClass = $info;
     } elseif ($variant === 'pending') {

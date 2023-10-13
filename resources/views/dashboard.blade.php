@@ -1,214 +1,91 @@
 <x-app-layout>
-    <div class="m-8 overflow-hidden rounded-lg bg-white p-6">
+    <x-card>
         <x-page-header>Dashboard</x-page-header>
 
-        <div class="mt-4 text-lg font-semibold">Bus Departures</div>
-
-        <div class="mt-2 overflow-x-auto rounded-lg border">
-            <table class="w-full text-left text-sm text-gray-500">
-                <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                    <tr>
-                        <th class="px-6 py-3">Bus Name</th>
-                        <th class="px-6 py-3">Source-Destination</th>
-                        <th class="px-6 py-3">Departure DateTime</th>
-                        <th class="px-6 py-3">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($bus_departures as $bus_departure)
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">
-                                @isset($bus_departure->bus)
-                                    {{ $bus_departure->bus->bus_name }}
-                                @else
-                                    -
-                                @endisset
-                            </td>
-
-                            <td class="px-6 py-4">
-                                @isset($bus_departure->bus_route)
-                                    {{ $bus_departure->bus_route->source_location->district }} -
-                                    {{ $bus_departure->bus_route->destination_location->district }}
-                                @else
-                                    -
-                                @endisset
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ \Carbon\Carbon::parse($bus_departure->departure_datetime)->format('jS, M Y \a\t h:i A') }}
-                            </td>
-
-                            <td class="flex gap-x-2 px-6 py-4">
-                                <a
-                                    class="font-medium text-blue-600 hover:underline"
-                                    href={{ route('admin.bus_departure.show', $bus_departure) }}
-                                >
-                                    View
-                                </a>
-
-                                <a
-                                    class="font-medium text-blue-600 hover:underline"
-                                    href={{ route('admin.bus_departure.edit', $bus_departure) }}
-                                >
-                                    Edit
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr class="text-center">
-                            <td
-                                class="py-4"
-                                colspan="4"
-                            >
-                                No buses departures found.
-                            </td>
-                        </tr>
-                    @endforelse
-
-                    @if (count($bus_departures))
-                        <tr>
-                            <td
-                                class="px-6 py-4 text-center"
-                                colspan="4"
-                            >
-                                <a
-                                    class="font-medium text-blue-600 hover:underline"
-                                    href="{{ route('admin.bus_departure.index') }}"
-                                >
-                                    See all bus departures
-                                </a>
-                            </td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
-
-        <div class="mt-10 grid grid-cols-2 gap-x-10">
-            <div>
-                <div class="text-lg font-semibold">Buses</div>
-
-                <div class="mt-2 overflow-x-auto rounded-lg border">
-                    <table class="w-full text-left text-sm text-gray-500">
-                        <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                            <tr>
-                                <th class="px-6 py-3">Bus Name</th>
-                                <th class="px-6 py-3">Total Seats</th>
-                                <th class="px-6 py-3">Bus Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($buses as $bus)
-                                <tr class="border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">
-                                        {{ $bus->bus_name }}
-                                    </td>
-
-                                    <td class="px-6 py-4">
-                                        {{ $bus->total_seats }}
-                                    </td>
-
-                                    <td class="px-6 py-4">
-                                        {{ ucwords(str_replace('_', ' ', $bus->bus_status)) }}
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr class="text-center">
-                                    <td
-                                        class="pt-4"
-                                        colspan="3"
-                                    >
-                                        No buses found.
-                                    </td>
-                                </tr>
-                            @endforelse
-
-                            @if (count($buses))
-                                <tr>
-                                    <td
-                                        class="px-6 py-4 text-center"
-                                        colspan="3"
-                                    >
-                                        <a
-                                            class="font-medium text-blue-600 hover:underline"
-                                            href="{{ route('admin.bus.index') }}"
-                                        >
-                                            See all buses
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+        <div class="mt-3 grid grid-cols-5 gap-x-6 gap-y-5">
+            <div
+                class="flex h-32 flex-col justify-between rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 pb-2 pt-3 font-semibold text-white shadow-md">
+                <span class="text-4xl">{{ $total_buses }}</span>
+                <div>
+                    <div class="mb-1">Total Buses</div>
+                    <a
+                        class="inline-flex gap-x-1 text-sm underline"
+                        href="{{ route('admin.bus.index') }}"
+                    >
+                        View <x-icons.arrow-right-thin class="text-white" />
+                    </a>
                 </div>
             </div>
 
-            <div>
-                <div class="text-lg font-semibold">Bookings</div>
+            <div
+                class="flex h-32 flex-col justify-between rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 pb-2 pt-3 font-semibold text-white shadow-md">
+                <span class="text-4xl">{{ $total_bus_routes }}</span>
+                <div>
+                    <div class="mb-1">Total Bus Routes</div>
+                    <a
+                        class="inline-flex gap-x-1 text-sm underline"
+                        href="{{ route('admin.bus_route.index') }}"
+                    >
+                        View <x-icons.arrow-right-thin class="text-white" />
+                    </a>
+                </div>
+            </div>
 
-                <div class="mt-2 overflow-x-auto rounded-lg border">
-                    <table class="w-full rounded text-left text-sm text-gray-500">
-                        <thead class="bg-gray-50 text-xs uppercase text-gray-700">
-                            <tr>
-                                <th class="px-6 py-3">Customer Name</th>
-                                <th class="px-6 py-3">Paid Amount</th>
-                                <th class="px-6 py-3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($bookings as $booking)
-                                <tr class="border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">
-                                        @isset($booking->customer)
-                                            {{ $booking->customer->name }}
-                                        @else
-                                            -
-                                        @endisset
-                                    </td>
+            <div
+                class="flex h-32 flex-col justify-between rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 pb-2 pt-3 font-semibold text-white shadow-md">
+                <span class="text-4xl">{{ $total_bus_departures }}</span>
+                <div>
+                    <div class="mb-1">Total Bus Departures</div>
+                    <a
+                        class="inline-flex gap-x-1 text-sm underline"
+                        href="{{ route('admin.bus_departure.index') }}"
+                    >
+                        View <x-icons.arrow-right-thin class="text-white" />
+                    </a>
+                </div>
+            </div>
 
-                                    <td class="px-6 py-4">
-                                        Rs. {{ number_format($booking->grand_total) }}
-                                    </td>
+            <div
+                class="flex h-32 flex-col justify-between rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 pb-2 pt-3 font-semibold text-white shadow-md">
+                <span class="text-4xl">{{ $total_bookings }}</span>
+                <div>
+                    <div class="mb-1">Total Bookings</div>
+                    <a
+                        class="inline-flex gap-x-1 text-sm underline"
+                        href="{{ route('admin.booking.index') }}"
+                    >
+                        View <x-icons.arrow-right-thin class="text-white" />
+                    </a>
+                </div>
+            </div>
 
-                                    <td class="flex gap-x-2 px-6 py-4">
-                                        <a
-                                            class="font-medium text-blue-600 hover:underline"
-                                            href={{ route('admin.booking.show', $booking) }}
-                                        >
-                                            View
-                                        </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr class="text-center">
-                                    <td
-                                        class="pt-4"
-                                        colspan="3"
-                                    >
-                                        No bookings found.
-                                    </td>
-                                </tr>
-                            @endforelse
+            <div
+                class="flex h-32 flex-col justify-between rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 pb-2 pt-3 font-semibold text-white shadow-md">
+                <span class="text-4xl">{{ $total_payments }}</span>
+                <div>
+                    <div class="mb-1">Total Payments</div>
+                    <a
+                        class="inline-flex gap-x-1 text-sm underline"
+                        href="{{ route('admin.payment.index') }}"
+                    >
+                        View <x-icons.arrow-right-thin class="text-white" />
+                    </a>
+                </div>
+            </div>
 
-                            @if ($bookings)
-                                <tr>
-                                    <td
-                                        class="px-6 py-4 text-center"
-                                        colspan="3"
-                                    >
-                                        <a
-                                            class="font-medium text-blue-600 hover:underline"
-                                            href="{{ route('admin.booking.index') }}"
-                                        >
-                                            See all bookings
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+            <div
+                class="flex h-32 flex-col justify-between rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 pb-2 pt-3 font-semibold text-white shadow-md">
+                <span class="text-4xl">{{ $total_customers }}</span>
+                <div>
+                    <div class="mb-1">Total Customers</div>
+                    <a
+                        class="inline-flex gap-x-1 text-sm underline"
+                        href="{{ route('admin.customer.index') }}"
+                    >
+                        View <x-icons.arrow-right-thin class="text-white" />
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-app-layout>

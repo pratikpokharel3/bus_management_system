@@ -15,19 +15,15 @@ class AdminCustomerController extends Controller
             ->filter(request(['search']))
             ->paginate(10);
 
-        return view('admin_customer.index',
-            [
-                'customers' => $customers
-            ]
-        );
+        return view('customer.index', [
+            'customers' => $customers
+        ]);
     }
 
     public function show(User $customer)
     {
-        return view('admin_customer.show',
-            [
-                'customer' => $customer->load('location', 'bank')
-            ]
-        );
+        return view('customer.show', [
+            'customer' => $customer->load('location', 'bank')
+        ]);
     }
 }

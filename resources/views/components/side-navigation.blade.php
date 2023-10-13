@@ -1,69 +1,66 @@
-<nav class="w-60 shrink-0 bg-indigo-800 px-5 py-12 text-white">
-    @canany(['superadmin', 'admin', 'staff'], \App\Models\User::class)
-        <x-side-navigation-link
-            href="{{ route('admin.dashboard') }}"
-            content="Dashboard"
-        />
+<nav class="w-60 shrink-0 bg-indigo-800 px-5 py-12">
+    <x-side-navigation-link
+        href="{{ route('admin.dashboard') }}"
+        route="admin.dashboard"
+    >
+        Dashboard
+    </x-side-navigation-link>
 
-        <x-side-navigation-link
-            href="{{ route('admin.bus.index') }}"
-            content="Manage Buses"
-        />
+    <x-side-navigation-link
+        href="{{ route('admin.bus.index') }}"
+        route="admin.bus.*"
+    >
+        Manage Buses
+    </x-side-navigation-link>
 
-        <x-side-navigation-link
-            href="{{ route('admin.bus_route.index') }}"
-            content="Manage Bus Routes"
-        />
+    <x-side-navigation-link
+        href="{{ route('admin.bus_route.index') }}"
+        route="admin.bus_route.*"
+    >
+        Manage Bus Routes
+    </x-side-navigation-link>
 
-        <x-side-navigation-link
-            href="{{ route('admin.bus_departure.index') }}"
-            content="Manage Bus Departures"
-        />
+    <x-side-navigation-link
+        href="{{ route('admin.bus_departure.index') }}"
+        route="admin.bus_departure.*"
+    >
+        Manage Bus Departures
+    </x-side-navigation-link>
 
-        <x-side-navigation-link
-            href="{{ route('admin.booking.index') }}"
-            content="Manage Bookings"
-        />
+    <x-side-navigation-link
+        href="{{ route('admin.booking.index') }}"
+        route="admin.booking.*"
+    >
+        Manage Bookings
+    </x-side-navigation-link>
 
-        <x-side-navigation-link
-            href="{{ route('admin.payment.index') }}"
-            content="Manage Payments"
-        />
+    <x-side-navigation-link
+        href="{{ route('admin.payment.index') }}"
+        route="admin.payment.*"
+    >
+        Manage Payments
+    </x-side-navigation-link>
 
-        <x-side-navigation-link
-            href="{{ route('admin.customer.index') }}"
-            content="Manage Customers"
-        />
-    @endcanany
+    <x-side-navigation-link
+        href="{{ route('admin.customer.index') }}"
+        route="admin.customer.*"
+    >
+        Manage Customers
+    </x-side-navigation-link>
 
     @canany(['superadmin', 'admin'], \App\Models\User::class)
         <x-side-navigation-link
             href="{{ route('admin.user.index') }}"
-            content="Manage Users"
-        />
+            route="admin.user.*"
+        >
+            Manage Users
+        </x-side-navigation-link>
     @endcanany
 
-    @canany(['superadmin', 'admin', 'staff'], \App\Models\User::class)
-        <x-side-navigation-link
-            href="{{ route('admin.enquiry.index') }}"
-            content="Manage Enquiries"
-        />
-    @endcanany
-
-    @can(['customer'], \App\Models\User::class)
-        <x-side-navigation-link
-            href="{{ route('customer.dashboard') }}"
-            content="Dashboard"
-        />
-
-        <x-side-navigation-link
-            href="{{ route('customer.booking.index') }}"
-            content="My Bookings"
-        />
-
-        <x-side-navigation-link
-            href="{{ route('customer.payment.index') }}"
-            content="My Payments"
-        />
-    @endcan
+    <x-side-navigation-link
+        href="{{ route('admin.enquiry.index') }}"
+        route="admin.enquiry.*"
+    >
+        Manage Enquiries
+    </x-side-navigation-link>
 </nav>

@@ -17,13 +17,13 @@
 
 <body class="font-sans antialiased">
     <div class="flex min-h-screen flex-col">
-        {{-- <x-guest-app-bar></x-guest-app-bar> --}}
+        @include('layouts.navigation')
 
         <main class="flex grow flex-col">
             {{ $slot }}
         </main>
 
-        <x-guest-footer></x-guest-footer>
+        @include('layouts.footer')
     </div>
 </body>
 

@@ -3,33 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bus;
-use App\Models\Booking;
+use App\Models\BusRoute;
 use App\Models\BusDeparture;
+use App\Models\Booking;
+use App\Models\Payment;
+use App\Models\User;
+
+use App\Enums\UserRole;
 
 class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $bus_departures = BusDeparture::with(
-            'bus',
-            'bus_route.source_location',
-            'bus_route.destination_location'
-        )
-            ->whereDate('departure_datetime', '>=', date('Y-m-d'))
-            ->latest()
-            ->take(5)->get();
-
-        $buses = Bus::latest()->take(5)->get();
-
-        $bookings = Booking::with('customer')
-            ->latest()
-            ->take(5)
-            ->get();
+        $total_buses = Bus::count();
+        $total_bus_routes = BusRoute::count();
+        $total_bus_departures = BusDeparture::count();
+        $total_bookings = Booking::count();
+        $total_payments = Payment::count();
+        $total_customers = User::where("user_role", UserRole::CUSTOMER->value)->count();
 
         return view('dashboard', [
-            'bus_departures' => $bus_departures,
-            'buses' => $buses,
-            'bookings' => $bookings
+            'total_buses' => $total_buses,
+            'total_bus_routes' => $total_bus_routes,
+            'total_bus_departures' => $total_bus_departures,
+            'total_bookings' => $total_bookings,
+            'total_payments' => $total_payments,
+            'total_customers' => $total_customers,
         ]);
     }
 }

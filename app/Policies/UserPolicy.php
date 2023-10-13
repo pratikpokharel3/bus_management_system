@@ -29,9 +29,4 @@ class UserPolicy
     {
         return $user->user_role === UserRole::STAFF->value;
     }
-
-    public function customer(User $user)
-    {
-        return $user->user_role === UserRole::CUSTOMER->value;
-    }
 }

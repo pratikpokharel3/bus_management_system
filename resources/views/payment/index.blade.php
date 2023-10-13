@@ -15,53 +15,58 @@
             </form>
         </div>
 
-        <div class="mt-6 overflow-x-auto shadow-md">
+        <div class="relative mt-6 overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-500">
                 <thead class="bg-gray-50 text-xs uppercase text-gray-700">
                     <tr>
-                        <th class="px-6 py-3">Customer Name</th>
-                        <th class="px-6 py-3">Amount</th>
-                        <th class="px-6 py-3">Paid Date</th>
-                        <th class="px-6 py-3">Booking Status</th>
-                        <th class="px-6 py-3">Payment Status</th>
-                        <th class="px-6 py-3">Action</th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Customer Name
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Bank Name
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Paid Amount
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($payments as $payment)
                         <tr class="border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">
-                                @isset($payment->customer)
-                                    {{ $payment->customer->name }}
-                                @else
-                                    -
-                                @endisset
+                            <th
+                                class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                                scope="row"
+                            >
+                                {{ $payment->customer->name }}
+                            </th>
+
+                            <td class="px-6 py-4">
+                                {{ $payment->bank->bank_name }}
                             </td>
 
                             <td class="px-6 py-4">
                                 Rs. {{ number_format($payment->paid_amount) }}
                             </td>
 
-                            <td class="px-6 py-4">
-                                {{ \Carbon\Carbon::parse($payment->created_at)->format('jS, M Y \a\t h:i A') }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                @isset($payment->booking)
-                                    {{ ucwords($payment->booking->booking_status) }}
-                                @else
-                                    -
-                                @endisset
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ ucwords(str_replace('_', ' ', $payment->payment_status)) }}
-                            </td>
-
                             <td class="flex gap-x-2 px-6 py-4">
                                 <a
                                     class="font-medium text-blue-600 hover:underline"
-                                    href={{ route('admin.booking.show', $payment->booking_id) }}
+                                    href="{{ route('admin.booking.show', $payment->booking_id) }}"
                                 >
                                     View Booking
                                 </a>
@@ -70,8 +75,8 @@
                     @empty
                         <tr>
                             <td
-                                class="pt-4 text-center"
-                                colspan="5"
+                                class="py-4 text-center"
+                                colspan="4"
                             >
                                 No payments found.
                             </td>
@@ -80,9 +85,11 @@
                 </tbody>
             </table>
 
-            <div class="p-6">
-                {{ $payments->links() }}
-            </div>
+            @if ($payments->total() > $payments->count())
+                <div class="mt-5">
+                    {{ $payments->links() }}
+                </div>
+            @endif
         </div>
     </x-card>
 </x-app-layout>
