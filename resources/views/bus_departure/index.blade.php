@@ -12,35 +12,62 @@
                         name="search"
                         value="{{ request('search') }}"
                         placeholder="Search bus..."
-                    >
-                    </x-search-input>
+                    />
                 </form>
             </div>
 
-            <x-button-link href="{{ route('admin.bus_departure.create') }}">Add New Departure</x-button-link>
+            <x-button-link href="{{ route('admin.bus_departure.create') }}">Add New Bus Departure</x-button-link>
         </div>
 
-        <div class="mt-6 overflow-x-auto shadow-md">
+        <div class="relative mt-6 overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-500">
                 <thead class="bg-gray-50 text-xs uppercase text-gray-700">
                     <tr>
-                        <th class="px-6 py-3">Bus Name</th>
-                        <th class="px-6 py-3">Source-Destination</th>
-                        <th class="px-6 py-3">Departure DateTime</th>
-                        <th class="px-6 py-3">Departure Status</th>
-                        <th class="px-6 py-3">Action</th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Bus name
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Source-Destination
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Departure Datetime
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Departure Status
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($bus_departures as $bus_departure)
                         <tr class="border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">
+                            <th
+                                class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                                scope="row"
+                            >
                                 @isset($bus_departure->bus)
                                     {{ $bus_departure->bus->bus_name }}
                                 @else
                                     -
                                 @endisset
-                            </td>
+                            </th>
 
                             <td class="px-6 py-4">
                                 @isset($bus_departure->bus_route)
@@ -84,21 +111,23 @@
                             </td>
                         </tr>
                     @empty
-                        <tr class="text-center">
+                        <tr>
                             <td
-                                class="pt-4"
-                                colspan="4"
+                                class="py-4 text-center"
+                                colspan="5"
                             >
-                                No buses departures found.
+                                No bus departures found.
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
 
-            <div class="p-6">
-                {{ $bus_departures->links() }}
-            </div>
+            @if ($bus_departures->total() > $bus_departures->count())
+                <div class="mt-5">
+                    {{ $bus_departures->links() }}
+                </div>
+            @endif
         </div>
     </x-card>
 </x-app-layout>

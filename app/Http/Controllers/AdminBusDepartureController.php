@@ -57,13 +57,16 @@ class AdminBusDepartureController extends Controller
             ]
         );
 
+        $attributes['total_tickets'] = null;
+        $attributes['seats_booked'] = null;
+
         $date = Carbon::createFromFormat('Y-m-d\TH:i', $request->departure_datetime);
         $attributes['departure_datetime'] = $date;
 
-        $bus_departure = new BusDeparture($attributes);
-        $bus_departure->user_id = auth()->id();
-        $bus_departure->save();
+        $attributes['departure_status'] = BusDepartureStatus::NOT_STARTED->value;
+        $attributes['user_id'] = auth()->id();
 
+        BusDeparture::create($attributes);
         return back()->with('success', 'Bus Departure Information Added Successfully.');
     }
 
@@ -93,18 +96,21 @@ class AdminBusDepartureController extends Controller
 
     public function update(Request $request, BusDeparture $busDeparture)
     {
+        $attributes = [];
+
         if ($busDeparture->departure_status === BusDepartureStatus::NOT_STARTED->value) {
             $attributes = $request->validate(
                 [
                     'bus_id' => 'required',
                     'bus_route_id' => 'required',
-                    'departure_datetime' => 'required|date_format:Y-m-d\TH:i',
+                    'departure_datetime' => 'required|date|date_format:Y-m-d\TH:i|after:now',
                     'departure_status' => ['required', new Enum(BusDepartureStatus::class)],
                 ],
                 [
                     'bus_id.required' => 'The bus name field is required.',
                     'bus_route_id.required' => 'The bus route field is required.',
                     'departure_datetime.date_format' => 'The departure datetime field format is invalid.',
+                    'departure_datetime.after' => 'The departure datetime field must be greater than current datetime.'
                 ]
             );
         }
@@ -121,5 +127,19 @@ class AdminBusDepartureController extends Controller
         $busDeparture->update($attributes);
 
         return back()->with('success', 'Bus Departure Information Updated Successfully.');
+    }
+
+    public function get_all_bus_departures()
+    {
+        $bus_departures = BusDeparture::with(
+            'bus',
+            'bus_route.source_location',
+            'bus_route.destination_location'
+        )
+            ->whereDate("departure_datetime", ">=", now()->format("Y-m-d"))
+            ->latest()
+            ->paginate(10);
+
+        return response()->json($bus_departures);
     }
 }

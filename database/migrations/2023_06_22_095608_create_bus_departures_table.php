@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('bus_id')->nullable()->constrained('buses')->nullOnDelete();
             $table->foreignId('bus_route_id')->nullable()->constrained('bus_routes')->nullOnDelete();
-            $table->integer('total_tickets_booked')->default(0);
+            $table->integer('total_tickets')->nullable();
             $table->string('seats_booked')->nullable();
-            $table->string('pending_seats')->nullable();
             $table->dateTime('departure_datetime');
-            $table->enum('departure_status', ['not_started', 'pending', 'arrived', 'cancelled'])->default('not_started');
+            $table->enum('departure_status', ['not_started', 'pending', 'arrived', 'cancelled']);
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });

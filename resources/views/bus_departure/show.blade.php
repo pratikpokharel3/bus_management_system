@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
-        <x-page-header class="mt-3">Bus Departure Information</x-page-header>
+        <x-page-header>Bus Departure Information</x-page-header>
 
         <div class="mt-2 grid grid-cols-3 gap-y-5">
             <div class="flex flex-col">
@@ -26,7 +24,7 @@
 
             <div class="flex flex-col">
                 <span class="font-semibold">Number of Tickets Booked</span>
-                {{ $bus_departure->total_tickets_booked }} out of
+                {{ $bus_departure->total_tickets ?? '0' }} out of
                 @isset($bus_departure->bus)
                     {{ $bus_departure->bus->total_seats }}
                 @else
@@ -60,6 +58,16 @@
                 @else
                     -
                 @endisset
+            </div>
+
+            <div class="flex flex-col">
+                <span class="font-semibold">Created At</span>
+                {{ \Carbon\Carbon::parse($bus_departure->created_at)->format('jS, M Y \a\t h:i A') }}
+            </div>
+
+            <div class="flex flex-col">
+                <span class="font-semibold">Updated At</span>
+                {{ \Carbon\Carbon::parse($bus_departure->updated_at)->format('jS, M Y \a\t h:i A') }}
             </div>
         </div>
     </x-card>

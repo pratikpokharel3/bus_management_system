@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('booking_id')->constrained('bookings')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('users')->cascadeOnDelete();
             $table->integer('paid_amount');
-            $table->enum('payment_status', ['paid', 'not_paid'])->default('paid');
             $table->timestamps();
         });
     }

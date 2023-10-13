@@ -3,5 +3,4 @@
     href="{{ url()->previous() }}"
 >
     <x-icons.arrow-left-thick></x-icons.arrow-left-thick>
-    Back
 </a>

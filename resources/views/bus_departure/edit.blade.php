@@ -1,19 +1,16 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
         <x-page-header>Edit Bus Departure</x-page-header>
 
         @php
             $departure_status = [];
-            
+
             $not_started = \App\Enums\BusDepartureStatus::NOT_STARTED->value;
             $pending = \App\Enums\BusDepartureStatus::PENDING->value;
             $arrived = \App\Enums\BusDepartureStatus::ARRIVED->value;
             $cancelled = \App\Enums\BusDepartureStatus::CANCELLED->value;
-            
+
             if ($bus_departure->departure_status === $not_started) {
-                $departure_status[] = $not_started;
                 $departure_status[] = $pending;
                 $departure_status[] = $cancelled;
             } elseif ($bus_departure->departure_status === $pending) {
@@ -22,21 +19,19 @@
         @endphp
 
         <form
-            class="mt-5 justify-between"
+            class="mt-3"
             method="POST"
             action="{{ route('admin.bus_departure.update', $bus_departure) }}"
         >
             @csrf
             @method('PATCH')
-            <div class="grid grid-cols-3 gap-x-10 gap-y-6">
+            <div class="grid grid-cols-3 gap-x-10 gap-y-5">
                 <div>
                     <x-input-label for="bus_id">Bus Name</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="bus_id"
                         name="bus_id"
-                        placeholder="Select Bus Name"
                         :disabled="$bus_departure->departure_status !== $not_started"
                         :value="old('bus_id', $bus_departure->bus->id)"
                     >
@@ -60,7 +55,6 @@
                     <x-input-label for="bus_route_id">Source-Destination</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="bus_route_id"
                         name="bus_route_id"
                         :disabled="$bus_departure->departure_status !== $not_started"
@@ -87,7 +81,6 @@
                     <x-input-label for="departure_datetime">Departure DateTime</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="departure_datetime"
                         name="departure_datetime"
                         type="datetime-local"
@@ -109,7 +102,6 @@
                     <x-input-label for="status">Departure Status</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="status"
                         name="status"
                         disabled
@@ -135,7 +127,6 @@
                         </x-input-label>
 
                         <x-select
-                            class="mt-1"
                             id="departure_status"
                             name="departure_status"
                             :value="old('departure_status', $bus_departure->departure_status)"

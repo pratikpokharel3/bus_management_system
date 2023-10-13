@@ -24,6 +24,7 @@ class User extends Authenticatable
         'gender',
         'phone_number',
         'location_id',
+        'user_role',
         'password',
     ];
 

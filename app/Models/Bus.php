@@ -16,8 +16,9 @@ class Bus extends Model
         'driver_name',
         'conductor_name',
         'bus_owner',
+        'bus_route_id',
         'bus_status',
-        'bus_route_id'
+        'user_id'
     ];
 
     public function user()

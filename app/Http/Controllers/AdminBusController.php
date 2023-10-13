@@ -17,12 +17,9 @@ class AdminBusController extends Controller
             ->filter(request(['search']))
             ->paginate(10);
 
-        return view(
-            'bus.index',
-            [
-                'buses' => $buses
-            ]
-        );
+        return view('bus.index', [
+            'buses' => $buses
+        ]);
     }
 
     public function create()
@@ -52,10 +49,8 @@ class AdminBusController extends Controller
             ]
         );
 
-        $bus = new Bus($attributes);
-        $bus->user_id = auth()->id();
-        $bus->save();
-
+        $attributes['user_id'] = auth()->id();
+        Bus::create($attributes);
         return back()->with('success', 'Bus Information Added Successfully.');
     }
 
@@ -98,7 +93,7 @@ class AdminBusController extends Controller
             ]
         );
 
-        $bus->user_id = auth()->id();
+        $attributes['user_id'] = auth()->id();
         $bus->update($attributes);
 
         return back()->with('success', 'Bus Information Updated Successfully.');
@@ -108,6 +103,6 @@ class AdminBusController extends Controller
     {
         $bus->delete();
 
-        return back()->with('success', 'Bus Deleted Successfully.');
+        return back()->with('success', 'Bus Information Deleted Successfully.');
     }
 }

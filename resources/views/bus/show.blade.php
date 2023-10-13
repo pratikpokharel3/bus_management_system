@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
-        <x-page-header class="mt-3">Bus Information</x-page-header>
+        <x-page-header>Bus Information</x-page-header>
 
         <div class="mt-2 grid grid-cols-3 gap-y-5">
             <div class="flex flex-col">
@@ -36,11 +34,6 @@
             </div>
 
             <div class="flex flex-col">
-                <span class="font-semibold">Bus Status</span>
-                {{ ucwords(str_replace('_', ' ', $bus->bus_status)) }}
-            </div>
-
-            <div class="flex flex-col">
                 <span class="font-semibold">Bus Route</span>
                 @isset($bus->bus_route)
                     {{ $bus->bus_route->source_location->district }} -
@@ -51,12 +44,27 @@
             </div>
 
             <div class="flex flex-col">
+                <span class="font-semibold">Bus Status</span>
+                {{ ucwords(str_replace('_', ' ', $bus->bus_status)) }}
+            </div>
+
+            <div class="flex flex-col">
                 <span class="font-semibold">Bus Added By</span>
                 @isset($bus->user)
                     {{ $bus->user->name }}
                 @else
                     -
                 @endisset
+            </div>
+
+            <div class="flex flex-col">
+                <span class="font-semibold">Created At</span>
+                {{ \Carbon\Carbon::parse($bus->created_at)->format('jS, M Y \a\t h:i A') }}
+            </div>
+
+            <div class="flex flex-col">
+                <span class="font-semibold">Updated At</span>
+                {{ \Carbon\Carbon::parse($bus->updated_at)->format('jS, M Y \a\t h:i A') }}
             </div>
         </div>
     </x-card>

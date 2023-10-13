@@ -19,24 +19,51 @@
             <x-button-link href="{{ route('admin.bus.create') }}">Add New Bus</x-button-link>
         </div>
 
-        <div class="mt-6 overflow-x-auto shadow-md">
+        <div class="relative mt-6 overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-500">
                 <thead class="bg-gray-50 text-xs uppercase text-gray-700">
                     <tr>
-                        <th class="px-6 py-3">Bus Name</th>
-                        <th class="px-6 py-3">Bus Route</th>
-                        <th class="px-6 py-3">Total Seats</th>
-                        <th class="px-6 py-3">Bus Owner</th>
-                        <th class="px-6 py-3">Bus Status</th>
-                        <th class="px-6 py-3">Action</th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Bus name
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Bus Route
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Total Seats
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Bus Status
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($buses as $bus)
                         <tr class="border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">
+                            <th
+                                class="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                                scope="row"
+                            >
                                 {{ $bus->bus_name }}
-                            </td>
+                            </th>
 
                             <td class="px-6 py-4">
                                 @isset($bus->bus_route)
@@ -49,10 +76,6 @@
 
                             <td class="px-6 py-4">
                                 {{ $bus->total_seats }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ $bus->bus_owner }}
                             </td>
 
                             <td class="px-6 py-4">
@@ -92,8 +115,8 @@
                     @empty
                         <tr>
                             <td
-                                class="pt-4 text-center"
-                                colspan="4"
+                                class="py-4 text-center"
+                                colspan="5"
                             >
                                 No buses found.
                             </td>
@@ -102,9 +125,11 @@
                 </tbody>
             </table>
 
-            <div class="p-6">
-                {{ $buses->links() }}
-            </div>
+            @if ($buses->total() > $buses->count())
+                <div class="mt-5">
+                    {{ $buses->links() }}
+                </div>
+            @endif
         </div>
     </x-card>
 </x-app-layout>

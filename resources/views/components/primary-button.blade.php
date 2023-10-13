@@ -1,8 +1,10 @@
+@props(['type' => 'submit'])
+
 <button
     {{ $attributes->merge([
-        'type' => 'submit',
+        'type' => $type,
         'class' =>
-            'w-full inline-flex justify-center items-center px-4 py-2 bg-indigo-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150',
+            'w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none',
     ]) }}
 >
     {{ $slot }}

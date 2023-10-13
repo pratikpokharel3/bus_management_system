@@ -2,22 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomerEnquiryController;
 
-use App\Http\Controllers\AdminBusController;
-use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\AdminBusRouteController;
-use App\Http\Controllers\AdminBookingController;
-use App\Http\Controllers\AdminPaymentController;
-use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminBusController;
+use App\Http\Controllers\AdminBusRouteController;
 use App\Http\Controllers\AdminBusDepartureController;
-
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CustomerBookingController;
-use App\Http\Controllers\CustomerPaymentController;
-use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\AdminBookingController;
+use App\Http\Controllers\AdminCustomerController;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,19 +24,15 @@ use App\Http\Controllers\CustomerDashboardController;
 |
 */
 
-Route::GET('/', [HomeController::class, 'index'])->name('home');
-
-//Public APIs
-Route::post('check_bus_departures', [CustomerBookingController::class, 'check_bus_departures']);
-Route::post('check_bus_seats_availability', [CustomerBookingController::class, 'check_bus_seats_availabilty']);
-Route::post('confirm_booking', [CustomerBookingController::class, 'confirm_booking']);
+Route::GET('/', function () {
+    return redirect("/login");
+});
 
 Route::post('customer_enquiries', [CustomerEnquiryController::class, 'store'])->name('customer_enquiries');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::group([
         'prefix' => 'admin',
-        'middleware' => 'admin',
         'as' => 'admin.'
     ], function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -71,7 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('bookings', [AdminBookingController::class, 'index'])->name('booking.index');
         Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('booking.show');
-        Route::patch('bookings/{booking}', [AdminBookingController::class, 'update'])->name('booking.update');
         Route::post('bookings/invoice/{booking}', [AdminBookingController::class, 'invoice_view'])->name('booking.invoice.view');
         Route::post('bookings/invoice/{booking}/download', [AdminBookingController::class, 'invoice_download'])->name('booking.invoice.download');
 
@@ -90,31 +79,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('enquiries/{enquiry}', [CustomerEnquiryController::class, 'show'])->name('enquiry.show');
         Route::delete('enquiries/{enquiry}', [CustomerEnquiryController::class, 'destroy'])->name('enquiry.destroy');
     });
-
-    Route::group([
-        'prefix' => 'customer',
-        'middleware' => 'customer',
-        'as' => 'customer.'
-    ], function () {
-        Route::get('dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
-
-        Route::get('bookings', [CustomerBookingController::class, 'index'])->name('booking.index');
-        Route::get('bookings/create/{bus_departure}', [CustomerBookingController::class, 'create'])->name('booking.create');
-        Route::get('bookings/{booking}', [CustomerBookingController::class, 'show'])->name('booking.show');
-        Route::delete('bookings/{booking}', [CustomerBookingController::class, 'destroy'])->name('booking.destroy');
-
-        Route::post('bookings/invoice/{booking}/view', [CustomerBookingController::class, 'invoice_view'])->name('booking.invoice.view');
-        Route::post('bookings/invoice/{booking}/download', [CustomerBookingController::class, 'invoice_download'])->name('booking.invoice.download');
-        Route::post('confirm_payment', [CustomerBookingController::class, 'confirm_payment'])->name('confirm_payment');
-        Route::get('guest/handle_payment', [CustomerBookingController::class, 'handle_payment_from_guest'])->name('handle_guest_payment');
-
-        Route::get('payments', [CustomerPaymentController::class, 'index'])->name('payment.index');
-    });
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/update_bank_information', [ProfileController::class, 'update_bank_information'])->name('profile.update_bank_information');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';

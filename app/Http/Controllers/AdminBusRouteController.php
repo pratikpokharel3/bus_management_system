@@ -40,14 +40,12 @@ class AdminBusRouteController extends Controller
             ],
             [
                 'source_location_id.required' => 'The source location field is required.',
-                'source_location_id.unique' => 'The source and destination location must be unique.',
                 'destination_location_id.required' => 'The destination location field is required.',
             ]
         );
 
-        $bus_route = new BusRoute($attributes);
-        $bus_route->user_id = auth()->id();
-        $bus_route->save();
+        $attributes['user_id'] = auth()->id();
+        BusRoute::create($attributes);
 
         return back()->with('success', 'Bus Route Added Successfully.');
     }
@@ -70,12 +68,11 @@ class AdminBusRouteController extends Controller
             ],
             [
                 'source_location_id.required' => 'The source location field is required.',
-                'source_location_id.unique' => 'The source and destination location must be unique.',
                 'destination_location_id.required' => 'The destination location field is required.',
             ]
         );
 
-        $bus_route->user_id = auth()->id();
+        $attributes['user_id'] = auth()->id();
         $bus_route->update($attributes);
 
         return back()->with('success', 'Bus Route Information Updated Successfully.');

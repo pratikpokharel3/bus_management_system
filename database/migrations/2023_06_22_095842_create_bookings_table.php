@@ -20,8 +20,6 @@ return new class extends Migration
             $table->integer('total_amount');
             $table->integer('vat');
             $table->integer('grand_total');
-            $table->enum('booking_status', ['pending', 'accepted', 'rejected']);
-            $table->string('remarks');
             $table->timestamps();
         });
     }

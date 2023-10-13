@@ -1,21 +1,18 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
         <x-page-header>Add New Route</x-page-header>
 
         <form
-            class="mt-5 justify-between"
+            class="mt-3"
             method="POST"
             action="{{ route('admin.bus_route.store') }}"
         >
             @csrf
-            <div class="grid grid-cols-3 gap-x-10 gap-y-6">
+            <div class="grid grid-cols-3 gap-x-10 gap-y-5">
                 <div>
                     <x-input-label for="source_location_id">Source Location</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="source_location_id"
                         name="source_location_id"
                         :value="old('source_location_id')"
@@ -40,7 +37,6 @@
                     <x-input-label for="destination_location_id">Destination Location</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="destination_location_id"
                         name="destination_location_id"
                         :value="old('destination_location_id')"
@@ -65,7 +61,6 @@
                     <x-input-label for="price">Ticket Price (Per 1 Person)</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="price"
                         name="price"
                         type="text"

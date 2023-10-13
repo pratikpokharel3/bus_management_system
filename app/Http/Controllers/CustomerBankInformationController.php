@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
+
 class CustomerBankInformationController extends Controller
 {
-    public function customer()
+    public function get_all_banks()
     {
-        return $this->belongsTo(User::class, 'id', 'bank_id');
+        $banks = Bank::all();
+
+        return response()->json($banks);
     }
 }

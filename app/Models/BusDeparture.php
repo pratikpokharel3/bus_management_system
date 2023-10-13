@@ -12,8 +12,11 @@ class BusDeparture extends Model
     protected $fillable = [
         'bus_id',
         'bus_route_id',
+        'total_tickets',
+        'seats_booked',
         'departure_datetime',
-        'departure_status'
+        'departure_status',
+        'user_id'
     ];
 
     public function bus()

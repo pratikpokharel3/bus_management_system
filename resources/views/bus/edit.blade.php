@@ -1,22 +1,19 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
         <x-page-header>Edit Bus Information</x-page-header>
 
         <form
-            class="mt-5 justify-between"
+            class="mt-3 justify-between"
             method="POST"
             action="{{ route('admin.bus.update', $bus) }}"
         >
             @csrf
             @method('PATCH')
-            <div class="grid grid-cols-3 gap-x-10 gap-y-6">
+            <div class="grid grid-cols-3 gap-x-10 gap-y-5">
                 <div>
                     <x-input-label for="bus_name">Bus Name</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="bus_name"
                         name="bus_name"
                         type="text"
@@ -33,7 +30,6 @@
                     <x-input-label for="total_seats">Total Seats</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="total_seats"
                         name="total_seats"
                         type="text"
@@ -50,7 +46,6 @@
                     <x-input-label for="bus_plate_number">Bus Plate Number</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="bus_plate_number"
                         name="bus_plate_number"
                         type="text"
@@ -67,7 +62,6 @@
                     <x-input-label for="driver_name">Driver Name</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="driver_name"
                         name="driver_name"
                         type="text"
@@ -84,7 +78,6 @@
                     <x-input-label for="conductor_name">Conductor Name</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="conductor_name"
                         name="conductor_name"
                         type="text"
@@ -101,7 +94,6 @@
                     <x-input-label for="bus_owner">Bus Owner</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="bus_owner"
                         name="bus_owner"
                         type="text"
@@ -118,7 +110,6 @@
                     <x-input-label for="bus_status">Bus Status</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="bus_status"
                         name="bus_status"
                         :value="old('bus_status', $bus->bus_status)"
@@ -143,7 +134,6 @@
                     <x-input-label for="bus_route_id">Bus Route</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="bus_route_id"
                         name="bus_route_id"
                         :value="old('bus_route_id', $bus->bus_route_id)"

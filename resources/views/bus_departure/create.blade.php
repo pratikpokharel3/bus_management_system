@@ -1,24 +1,20 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
-
         <x-page-header>Add New Bus Departure</x-page-header>
 
         <form
-            class="mt-5 justify-between"
+            class="mt-3"
             method="POST"
             action="{{ route('admin.bus_departure.store') }}"
         >
             @csrf
-            <div class="grid grid-cols-3 gap-x-10 gap-y-6">
+            <div class="grid grid-cols-3 gap-x-10 gap-y-5">
                 <div>
                     <x-input-label for="bus_id">Bus Name</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="bus_id"
                         name="bus_id"
-                        placeholder="Select Bus Name"
                         :value="old('bus_id')"
                     >
                         @foreach ($buses as $bus)
@@ -41,7 +37,6 @@
                     <x-input-label for="bus_route_id">Source-Destination</x-input-label>
 
                     <x-select
-                        class="mt-1"
                         id="bus_route_id"
                         name="bus_route_id"
                         :value="old('bus_route_id')"
@@ -67,7 +62,6 @@
                     <x-input-label for="departure_datetime">Departure DateTime</x-input-label>
 
                     <x-text-input
-                        class="mt-1"
                         id="departure_datetime"
                         name="departure_datetime"
                         type="datetime-local"

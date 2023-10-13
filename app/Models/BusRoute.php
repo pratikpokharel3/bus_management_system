@@ -9,7 +9,7 @@ class BusRoute extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['source_location_id', 'destination_location_id', 'price'];
+    protected $fillable = ['source_location_id', 'destination_location_id', 'price', 'user_id'];
 
     public function source_location()
     {
