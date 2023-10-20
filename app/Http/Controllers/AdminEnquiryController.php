@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CustomerEnquiry;
 use Illuminate\Http\Request;
 
-class CustomerEnquiryController extends Controller
+class AdminEnquiryController extends Controller
 {
     public function index()
     {
@@ -28,7 +28,9 @@ class CustomerEnquiryController extends Controller
 
         CustomerEnquiry::create($attributes);
 
-        return back()->with('success', 'Thank You! Your Feedback is Appreciated.');
+        return response()->json([
+            'message' => 'Thank your for sending your enquires.'
+        ]);
     }
 
     public function destroy(CustomerEnquiry $enquiry)

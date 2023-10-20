@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-card>
-        <x-page-header>Edit Bus Departure</x-page-header>
+        <div class="flex items-center gap-x-3">
+            <x-go-back href="{{ route('admin.bus_departure.index') }}"></x-go-back>
+            <x-page-header>Edit Bus Departure</x-page-header>
+        </div>
 
         @php
             $departure_status = [];
@@ -11,6 +14,7 @@
             $cancelled = \App\Enums\BusDepartureStatus::CANCELLED->value;
 
             if ($bus_departure->departure_status === $not_started) {
+                $departure_status[] = $not_started;
                 $departure_status[] = $pending;
                 $departure_status[] = $cancelled;
             } elseif ($bus_departure->departure_status === $pending) {

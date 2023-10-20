@@ -1,10 +1,11 @@
 <x-app-layout>
     <x-card>
-        <x-go-back></x-go-back>
+        <div class="flex items-center gap-x-3">
+            <x-go-back href="{{ route('admin.user.index') }}"></x-go-back>
+            <x-page-header>User Information</x-page-header>
+        </div>
 
-        <x-page-header class="mt-3">User Information</x-page-header>
-
-        <div class="grid grid-cols-3 gap-y-5 mt-2 pb-5">
+        <div class="mt-2 grid grid-cols-3 gap-y-5">
             <div class="flex flex-col">
                 <span class="font-semibold">Name</span>
                 {{ $user->name }}
@@ -41,43 +42,60 @@
             </div>
         </div>
 
-        @if(auth()->user()->user_role === \App\Enums\UserRole::ADMIN->value && $user->user_role ===
-        \App\Enums\UserRole::ADMIN->value)
-        <x-alert variant="info" class="mt-5">
-            Since, this user is also an admin, only super admin is able to change the user role of this user.
-        </x-alert>
-        @else
-        <hr>
-        <form method="POST" action="{{ route('admin.user.update', $user) }}">
-            @csrf
-            @method('PATCH')
-            <div class="w-1/3 mt-5">
-                <x-input-label for="user_role" class="text-lg font-semibold">
-                    Change User Role
-                </x-input-label>
+        @php
+            $isSuperAdmin = \App\Enums\UserRole::SUPER_ADMIN->value;
+            $isAdmin = \App\Enums\UserRole::ADMIN->value;
+            $isStaff = \App\Enums\UserRole::STAFF->value;
+            $currentUserRole = auth()->user()->user_role;
 
-                <input type="hidden" name="user_id" value="{{ $user->id }}" />
+            $user_roles = [$isAdmin, $isStaff];
+        @endphp
 
-                <x-select class="mt-1" id="user_role" name="user_role" :value="old('user_role', $user->user_role)">
-                    @foreach (\App\Enums\UserRole::cases() as $user_role)
-                    @if ($user_role->value !== 'super_admin' && $user_role->value !== 'customer' && $user_role->value
-                    !== $user->user_role)
-                    <option value="{{ $user_role->value }}" {{ old('user_role', $user->user_role) == $user_role->value ?
-                        'selected' : '' }}
-                        >
-                        {{ ucwords(str_replace('_', ' ', $user_role->value)) }}
-                    </option>
-                    @endif
-                    @endforeach
-                </x-select>
+        @if ($currentUserRole === $user->user_role)
+            <x-alert
+                class="mt-6"
+                variant="info"
+            >
+                Since, {{ $user->name }} is also an admin, only super admin can change the user role of this user.
+            </x-alert>
+        @endif
 
-                <x-input-error class="mt-2" :messages="$errors->get('user_role')" />
-            </div>
+        @if ($currentUserRole === $isSuperAdmin || ($currentUserRole === $isAdmin && $user->user_role === $isStaff))
+            <hr class="mt-5">
+            <form
+                method="POST"
+                action="{{ route('admin.user.update', $user) }}"
+            >
+                @csrf
+                @method('PATCH')
+                <div class="mt-5 w-1/3">
+                    <x-input-label for="user_role">Change User Role</x-input-label>
 
-            <div class="w-1/3 mt-5">
-                <x-primary-button>Change Role</x-primary-button>
-            </div>
-        </form>
+                    <x-select
+                        id="user_role"
+                        name="user_role"
+                        :value="old('user_role', $user->user_role)"
+                    >
+                        @foreach ($user_roles as $user_role)
+                            <option
+                                value="{{ $user_role }}"
+                                {{ old('user_role', $user->user_role) == $user_role ? 'selected' : '' }}
+                            >
+                                {{ ucwords(str_replace('_', ' ', $user_role)) }}
+                            </option>
+                        @endforeach
+                    </x-select>
+
+                    <x-input-error
+                        class="mt-2"
+                        :messages="$errors->get('user_role')"
+                    />
+                </div>
+
+                <div class="mt-5 w-1/3">
+                    <x-primary-button>Change Role</x-primary-button>
+                </div>
+            </form>
         @endif
     </x-card>
 </x-app-layout>

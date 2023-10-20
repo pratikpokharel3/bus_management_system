@@ -1,7 +1,10 @@
 <x-app-layout>
     <x-card>
         <div class="flex justify-between">
-            <x-page-header>Booking Information</x-page-header>
+            <div class="flex items-center gap-x-3">
+                <x-go-back href="{{ route('admin.booking.index') }}"></x-go-back>
+                <x-page-header>Booking Departure</x-page-header>
+            </div>
 
             <div class="flex gap-x-3">
                 <form

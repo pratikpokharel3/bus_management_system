@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-card>
-        <x-page-header>Bus Information</x-page-header>
+        <div class="flex items-center gap-x-3">
+            <x-go-back href="{{ route('admin.bus.index') }}"></x-go-back>
+            <x-page-header>Bus Information</x-page-header>
+        </div>
 
         <div class="mt-2 grid grid-cols-3 gap-y-5">
             <div class="flex flex-col">

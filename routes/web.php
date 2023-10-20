@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CustomerEnquiryController;
+use App\Http\Controllers\AdminEnquiryController;
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminBusController;
@@ -27,8 +27,6 @@ use App\Http\Controllers\AdminPaymentController;
 Route::GET('/', function () {
     return redirect("/login");
 });
-
-Route::post('customer_enquiries', [CustomerEnquiryController::class, 'store'])->name('customer_enquiries');
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::group([
@@ -74,10 +72,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
         Route::post('users', [AdminUserController::class, 'store'])->name('user.store');
         Route::get('users/{user}', [AdminUserController::class, 'show'])->name('user.show');
         Route::patch('users/{user}', [AdminUserController::class, 'update'])->name('user.update');
+        Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('user.destroy');
 
-        Route::get('enquiries', [CustomerEnquiryController::class, 'index'])->name('enquiry.index');
-        Route::get('enquiries/{enquiry}', [CustomerEnquiryController::class, 'show'])->name('enquiry.show');
-        Route::delete('enquiries/{enquiry}', [CustomerEnquiryController::class, 'destroy'])->name('enquiry.destroy');
+        Route::get('enquiries', [AdminEnquiryController::class, 'index'])->name('enquiry.index');
+        Route::delete('enquiries/{enquiry}', [AdminEnquiryController::class, 'destroy'])->name('enquiry.destroy');
     });
 });
 

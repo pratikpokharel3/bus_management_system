@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-card>
-        <x-page-header>Add New Bus Departure</x-page-header>
+        <div class="flex items-center gap-x-3">
+            <x-go-back href="{{ route('admin.bus_departure.index') }}"></x-go-back>
+            <x-page-header>Add New Bus Departure</x-page-header>
+        </div>
 
         <form
             class="mt-3"
