@@ -80,16 +80,11 @@ class AdminBusController extends Controller
         $attributes = $request->validate(
             [
                 'bus_name' => 'required|max:255',
-                'total_seats' => 'required|integer|gt:0',
                 'bus_plate_number' => 'required|max:255|unique:buses,bus_plate_number,' .  $bus->id,
                 'driver_name' => 'required|max:255',
                 'conductor_name' => 'required|max:255',
                 'bus_owner' => 'required|max:255',
                 'bus_status' =>  ['required', new Enum(BusStatus::class)],
-                'bus_route_id' => 'required'
-            ],
-            [
-                'bus_route_id.required' => 'The bus route field is required.'
             ]
         );
 

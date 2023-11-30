@@ -36,6 +36,7 @@
                         id="total_seats"
                         name="total_seats"
                         type="text"
+                        disabled
                         :value="old('total_seats', $bus->total_seats)"
                     />
 
@@ -139,6 +140,7 @@
                     <x-select
                         id="bus_route_id"
                         name="bus_route_id"
+                        disabled
                         :value="old('bus_route_id', $bus->bus_route_id)"
                     >
                         @foreach ($bus_routes as $bus_route)

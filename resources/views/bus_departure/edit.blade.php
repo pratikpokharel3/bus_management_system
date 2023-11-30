@@ -20,6 +20,7 @@
             } elseif ($bus_departure->departure_status === $pending) {
                 $departure_status[] = $arrived;
             }
+
         @endphp
 
         <form
@@ -36,7 +37,8 @@
                     <x-select
                         id="bus_id"
                         name="bus_id"
-                        :disabled="$bus_departure->departure_status !== $not_started"
+                        :disabled="$bus_departure->departure_status !== $not_started ||
+                            $bus_departure->seats_booked !== null"
                         :value="old('bus_id', $bus_departure->bus->id)"
                     >
                         @foreach ($buses as $bus)
@@ -61,7 +63,8 @@
                     <x-select
                         id="bus_route_id"
                         name="bus_route_id"
-                        :disabled="$bus_departure->departure_status !== $not_started"
+                        :disabled="$bus_departure->departure_status !== $not_started ||
+                            $bus_departure->seats_booked !== null"
                         :value="old('bus_route_id', $bus_departure->bus_route_id)"
                     >
                         @foreach ($bus_routes as $bus_route)
@@ -89,7 +92,8 @@
                         name="departure_datetime"
                         type="datetime-local"
                         min="{{ now()->format('Y-m-d\TH:i') }}"
-                        :disabled="$bus_departure->departure_status !== $not_started"
+                        :disabled="$bus_departure->departure_status !== $not_started ||
+                            $bus_departure->seats_booked !== null"
                         :value="old(
                             'departure_datetime',
                             \Carbon\Carbon::parse($bus_departure->departure_datetime)->format('Y-m-d\TH:i'),

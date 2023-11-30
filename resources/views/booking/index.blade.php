@@ -29,6 +29,12 @@
                             class="px-6 py-3"
                             scope="col"
                         >
+                            Bus Name
+                        </th>
+                        <th
+                            class="px-6 py-3"
+                            scope="col"
+                        >
                             Source-Destination
                         </th>
                         <th
@@ -64,6 +70,14 @@
                                     -
                                 @endisset
                             </th>
+
+                            <td class="px-6 py-4">
+                                @isset($booking->bus_departure->bus)
+                                    {{ $booking->bus_departure->bus->bus_name }}
+                                @else
+                                    -
+                                @endisset
+                            </td>
 
                             <td class="px-6 py-4">
                                 @isset($booking->bus_departure->bus_route)

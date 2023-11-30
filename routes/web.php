@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
         Route::get('bus_departures/{bus_departure}', [AdminBusDepartureController::class, 'show'])->name('bus_departure.show');
         Route::get('bus_departures/{bus_departure}/edit', [AdminBusDepartureController::class, 'edit'])->name('bus_departure.edit');
         Route::patch('bus_departures/{bus_departure}', [AdminBusDepartureController::class, 'update'])->name('bus_departure.update');
+        Route::delete('bus_departures/{bus_departure}', [AdminBusDepartureController::class, 'destroy'])->name('bus_departure.destroy');
 
         Route::get('bookings', [AdminBookingController::class, 'index'])->name('booking.index');
         Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('booking.show');

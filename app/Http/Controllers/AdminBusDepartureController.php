@@ -72,6 +72,19 @@ class AdminBusDepartureController extends Controller
 
     public function show(BusDeparture $bus_departure)
     {
+        $seat_planning = [
+            ['A1', 'A2', 'B1', 'B2'],
+            ['A3', 'A4', 'B3', 'B4'],
+            ['A5', 'A6', 'B5', 'B6'],
+            ['A7', 'A8', 'B7', 'B8'],
+            ['A9', 'A10', 'B9', 'B10'],
+            ['A11', 'A12', 'B11', 'B12'],
+            ['A13', 'A14', 'B13', 'B14'],
+            ['A15', 'A16', 'B15', 'B16'],
+            ['A17', 'A18', 'B17', 'B18'],
+            ['A19', 'A20', 'B19', 'B20'],
+        ];
+
         return view('bus_departure.show', [
             'bus_departure' => $bus_departure->load(
                 'bus',
@@ -79,6 +92,7 @@ class AdminBusDepartureController extends Controller
                 'bus_route.destination_location',
                 'user'
             ),
+            'seat_planning' => $seat_planning
         ]);
     }
 
@@ -94,11 +108,11 @@ class AdminBusDepartureController extends Controller
         ]);
     }
 
-    public function update(Request $request, BusDeparture $busDeparture)
+    public function update(Request $request, BusDeparture $bus_departure)
     {
         $attributes = [];
 
-        if ($busDeparture->departure_status === BusDepartureStatus::NOT_STARTED->value) {
+        if ($bus_departure->departure_status === BusDepartureStatus::NOT_STARTED->value && $bus_departure->seats_booked === null) {
             $attributes = $request->validate(
                 [
                     'bus_id' => 'required',
@@ -115,7 +129,7 @@ class AdminBusDepartureController extends Controller
             );
         }
 
-        if ($busDeparture->departure_status === BusDepartureStatus::PENDING->value) {
+        if ($bus_departure->departure_status === BusDepartureStatus::NOT_STARTED->value && $bus_departure->seats_booked !== null) {
             $attributes = $request->validate(
                 [
                     'departure_status' => ['required', new Enum(BusDepartureStatus::class)],
@@ -123,10 +137,25 @@ class AdminBusDepartureController extends Controller
             );
         }
 
-        $busDeparture->user_id = auth()->user()->id;
-        $busDeparture->update($attributes);
+        if ($bus_departure->departure_status === BusDepartureStatus::PENDING->value) {
+            $attributes = $request->validate(
+                [
+                    'departure_status' => ['required', new Enum(BusDepartureStatus::class)],
+                ],
+            );
+        }
+
+        $bus_departure->user_id = auth()->user()->id;
+        $bus_departure->update($attributes);
 
         return back()->with('success', 'Bus Departure Information Updated Successfully.');
+    }
+
+    public function destroy(BusDeparture $bus_departure)
+    {
+        $bus_departure->delete();
+
+        return back()->with('success', 'Bus Departure Information Deleted Successfully.');
     }
 
     public function get_all_bus_departures()
@@ -136,6 +165,7 @@ class AdminBusDepartureController extends Controller
             'bus_route.source_location',
             'bus_route.destination_location'
         )
+            ->where('departure_status', BusDepartureStatus::NOT_STARTED)
             ->whereDate("departure_datetime", ">=", now()->format("Y-m-d"))
             ->latest()
             ->paginate(10);

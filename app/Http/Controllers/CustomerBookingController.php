@@ -6,7 +6,6 @@ use App\Models\Payment;
 use App\Models\Booking;
 use App\Models\BusRoute;
 use App\Models\BusDeparture;
-use App\Models\CustomersBankInformation;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,6 +37,14 @@ class CustomerBookingController extends Controller
             'bus_route.source_location',
             'bus_route.destination_location'
         )->find($bus_departure_id);
+
+        if ($bus_departure === null) {
+            return response()->json([
+                'bus_departure' => null,
+                'seat_planning' => [],
+                'seats_booked' => []
+            ]);
+        }
 
         $seats_booked = [];
 
@@ -165,9 +172,11 @@ class CustomerBookingController extends Controller
 
         $totalHours = Carbon::parse($bus_departure->departure_datetime)->diffInHours(now());
 
+        //Do not allow customers to cancel bus tickets before 2 hours of departure datetime
         if ($totalHours < 2) {
             return response()->json([
-                'message' => '<div>Your booking can only be cancelled before 2 hours left of departure time.</div><div>Please, contact our tech support for more information regarding booking cancellation and refund.</div>'
+                'booking_status' => false,
+                'message' => 'Your booking can only be cancelled before 2 hours of departure datetime. Please, contact our tech support for more information about this situation.'
             ]);
         }
 
@@ -188,7 +197,7 @@ class CustomerBookingController extends Controller
         $booking->delete();
 
         return response()->json([
-            'message' => 'Booking Information Deleted Successfully.'
+            'message' => 'Booking Cancelled Successfully.'
         ]);
     }
 
@@ -203,7 +212,7 @@ class CustomerBookingController extends Controller
             'bank'
         )->find($booking_id);
 
-        return PDF::loadView('customer.booking.invoice', [
+        return PDF::loadView('booking.invoice', [
             'booking' => $booking
         ])->download();
     }

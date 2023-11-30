@@ -108,6 +108,22 @@
                                         Edit
                                     </a>
                                 @endif
+
+                                @if ($departure_status === $not_started && $bus_departure->seats_booked === null)
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.bus_departure.destroy', $bus_departure) }}"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            class="font-medium text-blue-600 hover:underline"
+                                            type="submit"
+                                        >
+                                            Delete
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty

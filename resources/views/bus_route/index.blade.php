@@ -33,12 +33,12 @@
                         >
                             Added By
                         </th>
-                        <th
+                        {{-- <th
                             class="px-6 py-3"
                             scope="col"
                         >
                             Action
-                        </th>
+                        </th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +64,7 @@
                                 @endisset
                             </td>
 
-                            <td class="flex gap-x-2 px-6 py-4">
+                            {{-- <td class="flex gap-x-2 px-6 py-4">
                                 <a
                                     class="font-medium text-blue-600 hover:underline"
                                     href={{ route('admin.bus_route.edit', $bus_route) }}
@@ -85,7 +85,7 @@
                                         Delete
                                     </button>
                                 </form>
-                            </td>
+                            </td> --}}
                         </tr>
                     @empty
                         <tr>

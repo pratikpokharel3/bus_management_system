@@ -10,8 +10,12 @@
             action="{{ route('admin.bus.store') }}"
             method="POST"
         >
+            <x-alert variant="info">
+                The total seats and bus route cannot be changed later after creating new bus information.
+            </x-alert>
+
             @csrf
-            <div class="grid grid-cols-3 gap-x-10 gap-y-5">
+            <div class="mt-5 grid grid-cols-3 gap-x-10 gap-y-5">
                 <div>
                     <x-input-label for="bus_name">Bus Name</x-input-label>
 
