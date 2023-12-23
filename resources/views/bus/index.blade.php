@@ -90,7 +90,7 @@
                                     View
                                 </a>
 
-                                {{-- <a
+                                <a
                                     class="font-medium text-blue-600 hover:underline"
                                     href="{{ route('admin.bus.edit', $bus) }}"
                                 >
@@ -109,7 +109,7 @@
                                     >
                                         Delete
                                     </button>
-                                </form> --}}
+                                </form>
                             </td>
                         </tr>
                     @empty
